@@ -26,7 +26,7 @@ theorem VTy.rename_id {t : VTy s} :
   case prod =>
     simp_all [VTy.rename]
   case ref =>
-    simp_all [VTy.rename]
+    simp_all [VTy.rename, Rename.id]
   case forallL =>
     simp_all [VTy.rename, Rename.lift_id]
 
@@ -39,7 +39,7 @@ theorem VTy.rename_comp {t : VTy s1} {f : Rename s1 s2} {g : Rename s2 s3} :
   case prod =>
     simp_all [VTy.rename]
   case ref =>
-    simp_all [VTy.rename]
+    simp_all [VTy.rename, Rename.comp]
   case forallL =>
     simp_all [VTy.rename, Rename.lift_comp]
 

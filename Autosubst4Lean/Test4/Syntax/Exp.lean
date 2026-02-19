@@ -46,9 +46,9 @@ theorem Exp.rename_id {t : Exp s} :
   case rabs =>
     simp_all [Exp.rename, Rename.lift_id]
   case rapp =>
-    simp_all [Exp.rename]
+    simp_all [Exp.rename, Rename.id]
   case new =>
-    simp_all [Exp.rename]
+    simp_all [Exp.rename, Rename.id]
   case deref =>
     simp_all [Exp.rename]
   case assign =>
@@ -72,9 +72,9 @@ theorem Exp.rename_comp {t : Exp s1} {f : Rename s1 s2} {g : Rename s2 s3} :
   case rabs =>
     simp_all [Exp.rename, Rename.lift_comp]
   case rapp =>
-    simp_all [Exp.rename]
+    simp_all [Exp.rename, Rename.comp]
   case new =>
-    simp_all [Exp.rename]
+    simp_all [Exp.rename, Rename.comp]
   case deref =>
     simp_all [Exp.rename]
   case assign =>

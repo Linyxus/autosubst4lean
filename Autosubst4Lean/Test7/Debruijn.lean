@@ -2,10 +2,6 @@ import Mathlib.Tactic
 
 namespace RefCalc
 
-inductive TySort : Type where
-| val : TySort
-| comp : TySort
-
 inductive Kind : Type where
 | var : Kind
 | lvar : Kind

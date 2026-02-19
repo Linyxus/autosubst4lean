@@ -4,34 +4,26 @@ kinds:
   var "x"
   lvar "l"
 
-enum TySort := val | comp
+inductive Ty : Sig -> Type
+| unit : Ty s
+| arrow : Ty s -> Ty s -> Ty s
+| prod : Ty s -> Ty s -> Ty s
+| ref : BVar s .lvar -> Ty s -> Ty s
+| forallL : Ty (s,l) -> Ty s
 
-inductive VTy : Sig -> Type
-| unit : VTy s
-| arrow : VTy s -> CTy s -> VTy s
-| prod : VTy s -> VTy s -> VTy s
-| ref : BVar s .lvar -> VTy s -> VTy s
-| forallL : VTy (s,l) -> VTy s
-
-inductive CTy : Sig -> Type
-| ret : VTy s -> CTy s
-| bind : CTy s -> CTy (s,x) -> CTy s
-
-inductive Val : Sig -> Type
-| var : BVar s .var -> Val s
-| unit : Val s
-| pair : Val s -> Val s -> Val s
-| abs : VTy s -> Comp (s,x) -> Val s
-| labs : Comp (s,l) -> Val s
-
-inductive Comp : Sig -> Type
-| ret : Val s -> Comp s
-| bind : Comp s -> Comp (s,x) -> Comp s
-| app : Val s -> Val s -> Comp s
-| lapp : Val s -> BVar s .lvar -> Comp s
-| fst : Val s -> Comp s
-| snd : Val s -> Comp s
-| newrgn : Comp (s,l) -> Comp s
-| read : BVar s .lvar -> Val s -> Comp s
-| write : BVar s .lvar -> Val s -> Val s -> Comp s
-| alloc : BVar s .lvar -> Val s -> Comp s
+inductive Exp : Sig -> Type
+| var : BVar s .var -> Exp s
+| unit : Exp s
+| pair : Exp s -> Exp s -> Exp s
+| abs : Ty s -> Exp (s,x) -> Exp s
+| labs : Exp (s,l) -> Exp s
+| ret : Exp s -> Exp s
+| bind : Exp s -> Exp (s,x) -> Exp s
+| app : Exp s -> Exp s -> Exp s
+| lapp : Exp s -> BVar s .lvar -> Exp s
+| fst : Exp s -> Exp s
+| snd : Exp s -> Exp s
+| newrgn : Exp (s,l) -> Exp s
+| read : BVar s .lvar -> Exp s -> Exp s
+| write : BVar s .lvar -> Exp s -> Exp s -> Exp s
+| alloc : BVar s .lvar -> Exp s -> Exp s

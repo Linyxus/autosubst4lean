@@ -214,6 +214,9 @@ object SyntaxGen:
       val lemmas = scala.collection.mutable.ListBuffer(s"${sort.name}.rename")
       val hasBinders = ctor.fields.exists(_.binders.nonEmpty)
 
+      val hasBVar = ctor.fields.exists(_.fieldType.isInstanceOf[FieldType.BVarRef])
+      val hasVarRef = ctor.fields.exists(_.fieldType.isInstanceOf[FieldType.VarRef])
+
       // Add dependency lemmas for sorts/vars referenced in THIS constructor
       for f <- ctor.fields do
         f.fieldType match
@@ -223,6 +226,13 @@ object SyntaxGen:
             lemmas += s"Var.$theorem"
           case _ => ()
 
+      // For BVar fields mixed with non-VarRef sorts, include Rename.id/Rename.comp
+      // (safe because VarRef is the only case that conflicts with Rename.id unfolding)
+      if hasBVar && !hasVarRef then
+        theorem match
+          case "rename_id" => lemmas += "Rename.id"
+          case "rename_comp" => lemmas += "Rename.comp"
+
       // For binders
       if hasBinders then
         theorem match
@@ -230,4 +240,7 @@ object SyntaxGen:
           case "rename_comp" => lemmas += "Rename.lift_comp"
 
       val uniqueLemmas = lemmas.distinct.toList
-      s"  case ${ctor.name} =>\n    simp_all [${uniqueLemmas.mkString(", ")}]\n"
+      // If there are both BVar and VarRef fields in the same constructor,
+      // simp_all may leave BVar goals unsolved; add <;> rfl as fallback
+      val fallback = if hasBVar && hasVarRef then "\n    <;> rfl" else ""
+      s"  case ${ctor.name} =>\n    simp_all [${uniqueLemmas.mkString(", ")}]$fallback\n"
