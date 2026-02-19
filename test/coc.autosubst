@@ -1,7 +1,7 @@
 namespace CoC
 
 kinds:
-  var "x"
+  var "x" => Expr
 
 inductive Expr : Sig -> Type
 | var : BVar s .var -> Expr s

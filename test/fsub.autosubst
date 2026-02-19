@@ -1,8 +1,8 @@
 namespace Fsub
 
 kinds:
-  var "x"
-  tvar "X"
+  var "x" => Exp
+  tvar "X" => Ty
 
 inductive Ty : Sig -> Type
 | top : Ty s

@@ -36,6 +36,12 @@ object CodeGen:
     writeFile(outPath.resolve("Syntax.lean"), syntaxUmbrella)
     println(s"Generated Syntax.lean")
 
+    // Generate Substitution.lean if any kind has a substImage
+    if spec.kinds.exists(_.substImage.isDefined) then
+      val substContent = SubstitutionGen.generate(spec, modulePrefix)
+      writeFile(outPath.resolve("Substitution.lean"), substContent)
+      println(s"Generated Substitution.lean")
+
   /** Compute imports for a sort file. */
   private def computeImports(spec: LangSpec, sort: SortDef, priorSorts: List[SortDef], modulePrefix: String): List[String] =
     val deps = sortDependencies(spec, sort)

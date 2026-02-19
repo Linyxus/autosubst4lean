@@ -1,7 +1,7 @@
 namespace STLC
 
 kinds:
-  var "x"
+  var "x" => Exp
 
 inductive Ty : Sig -> Type
 | base : Ty s

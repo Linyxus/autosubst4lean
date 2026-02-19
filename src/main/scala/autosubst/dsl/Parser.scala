@@ -34,7 +34,10 @@ object Parser extends RegexParsers:
     "kinds:" ~> lineEnd ~> rep1(kindLine) <~ blankLines
 
   def kindLine: Parser[VarKind] =
-    ident ~ quotedString <~ lineEnd ^^ { case name ~ postfix => VarKind(name, postfix) }
+    ident ~ quotedString ~ opt("=>" ~> ident ~ opt(dotIdent)) <~ lineEnd ^^ {
+      case name ~ postfix ~ None => VarKind(name, postfix)
+      case name ~ postfix ~ Some(sort ~ idx) => VarKind(name, postfix, Some(SubstImage(sort, idx)))
+    }
 
   // ---- Enums ----
 

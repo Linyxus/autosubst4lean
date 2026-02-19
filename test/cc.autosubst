@@ -1,9 +1,9 @@
 namespace CC
 
 kinds:
-  var "x"
-  tvar "X"
-  cvar "C"
+  var "x" => Var .var
+  tvar "X" => Ty .shape
+  cvar "C" => CaptureSet
 
 enum TySort := capt | shape | exi
 

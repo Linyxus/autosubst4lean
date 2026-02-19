@@ -1,7 +1,10 @@
 package autosubst.dsl
 
+/** Substitution image: what a BVar of this kind gets substituted to. */
+case class SubstImage(sortName: String, index: Option[String] = None)
+
 /** A kind of variable, e.g. term variable, type variable. */
-case class VarKind(name: String, postfix: String)
+case class VarKind(name: String, postfix: String, substImage: Option[SubstImage] = None)
 
 /** An enum type used to index a sort, e.g. TySort. */
 case class EnumDef(name: String, variants: List[String])
