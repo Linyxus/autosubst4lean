@@ -1,4 +1,4 @@
-# autosubst4lean
+# Alauda
 
 A code generator that produces Lean 4 definitions for programming language syntax based on intrinsically-scoped de Bruijn indices. Given a description of variable kinds and syntax sorts in a small DSL, it generates:
 
