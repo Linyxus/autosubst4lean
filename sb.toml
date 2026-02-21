@@ -1,0 +1,8 @@
+[project]
+name = "alauda"
+version = "0.1.0-SNAPSHOT"
+scala-version = "3.8.1"
+main-class = "main"
+dependencies = [
+  "org.scala-lang.modules::scala-parser-combinators:2.4.0"
+]
